@@ -1,5 +1,6 @@
 import type { Resources } from "../../../../../shared/types";
 import Button from "../../../common/componets/Button";
+import StatusBadge from "./StatusBadge";
 
 type ResourceCardProps = {
   resource: Resources;
@@ -24,7 +25,7 @@ function ResourceCard({ resource }: ResourceCardProps) {
 
         <p>
           <span className="font-semibold">Status:</span>{" "}
-          {resource.status}
+          <StatusBadge status={resource.status}/>
         </p>
 
         <p>
