@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import AppLayout from "../componets/AppLayout";
 
@@ -13,22 +13,14 @@ function AppRoutes() {
   return (
     <Routes>
       <Route element={<AppLayout />}>
+        <Route path="/" element={<Navigate to="/library" replace />} />
         <Route path="/library" element={<LibraryPage />} />
 
-        <Route
-          path="/resources/:id"
-          element={<ResourceDetailPage />}
-        />
+        <Route path="/resources/:id" element={<ResourceDetailPage />} />
 
-        <Route
-          path="/collections"
-          element={<CollectionsPage />}
-        />
+        <Route path="/collections" element={<CollectionsPage />} />
 
-        <Route
-          path="/submit"
-          element={<SubmitPage />}
-        />
+        <Route path="/submit" element={<SubmitPage />} />
       </Route>
 
       <Route path="*" element={<NotFoundPage />} />

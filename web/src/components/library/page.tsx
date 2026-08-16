@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import type { Resources } from "../../../../shared/types";
-import { getResources } from "../../api/mockApi";
-import Input from "../../common/componets/Input";
+import { getResources } from "../../api/mockApi";   
 import ResourceCard from "../resources/components/ResourceCard";
-
+import SearchBar from "./components/SearchBar";
 
 function LibraryPage() {
   const [resources, setResources] = useState<Resources[]>([]);
@@ -63,25 +62,21 @@ function LibraryPage() {
   return (
     <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <header className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Asteroid Archive</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          Asteroid Archive
+        </h1>
       </header>
 
       <section aria-labelledby="library-title">
-        
-          <h2 id="library-title" className="text-2xl font-semibold text-gray-800 dark:text-gray-200">
-            Library
-          </h2>
-          <div className="w-full sm:w-80">
-            <Input
-              id="search"
-              name="search"
-              type="search"
-              value={search}
-              placeholder="Search resources..."
-              onChange={(event) => setSearch(event.target.value)}
-            />
-          </div>
-      
+        <h2
+          id="library-title"
+          className="text-2xl font-semibold text-gray-800 dark:text-gray-200"
+        >
+          Library
+        </h2>
+        <div className="w-full sm:w-80">
+          <SearchBar search={search} onSearchChange={setSearch} />
+        </div>
 
         {filteredResources.length === 0 ? (
           <div className="rounded-xl border border-dashed border-gray-300 p-12 text-center text-gray-500">
