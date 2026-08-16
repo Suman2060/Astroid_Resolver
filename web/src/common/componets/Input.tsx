@@ -26,7 +26,7 @@ function Input({
       placeholder={placeholder}
       disabled={disabled}
       onChange={onChange}
-      className="rounded-md border px-3 py-2"
+      className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
     />
   );
 }

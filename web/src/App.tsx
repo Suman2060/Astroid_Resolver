@@ -1,12 +1,7 @@
-import LibraryPage from "../src/components/library/page";
-import "./App.css";
+import AppRoutes from "./common/Routes/AppRoutes";
 
 function App() {
-  return (
-    <>
-      <LibraryPage />
-    </>
-  );
+  return <AppRoutes />;
 }
 
 export default App;

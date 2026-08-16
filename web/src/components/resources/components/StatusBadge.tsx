@@ -16,7 +16,7 @@ function getStatusClass(status: ResourceStatus): string {
       return "bg-gray-200 text-gray-800";
 
     default:
-      const exhaustiveCheck: never = status;
+      const exhaustiveCheck:never = status;
       return exhaustiveCheck;
   }
 }
