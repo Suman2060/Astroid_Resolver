@@ -16,9 +16,9 @@ function LibraryPage() {
     tag,
     sort,
     setSearch,
-    setType,
-    setTag,
-    setSort,
+    // setType,
+    // setTag,
+    // setSort,
   } = useLibraryFilters();
 
   useEffect(() => {
