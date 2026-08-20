@@ -5,9 +5,9 @@ type ButtonProps = {
   disabled?:boolean;
 };
 
-const Button = ({ children, type = "button", className = "" }: ButtonProps) => {
+const Button = ({ children, type = "button", className = "", disabled}: ButtonProps) => {
   return (
-    <button type={type} className={className}>
+    <button type={type} className={className} disabled={disabled}>
       {children}
     </button>
   );

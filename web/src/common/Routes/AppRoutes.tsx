@@ -2,12 +2,13 @@ import { Navigate, Route, Routes } from "react-router-dom";
 
 import AppLayout from "../componets/AppLayout";
 
-import LibraryPage from "../../components/library/page";
-import ResourceDetailPage from "../../components/resources/components/ResourceDetailPage";
-import CollectionsPage from "../../components/collections/components/CollectionDetailPage";
-import SubmitPage from "../../components/submit/SubmitPage";
+
+import ResourceDetailPage from "../../feature/resources/components/ResourceDetailPage";
+import CollectionsPage from "../../feature/collections/components/CollectionDetailPage";
+import SubmitPage from "../../feature/submit/SubmitPage";
 
 import NotFoundPage from "../Pages/NotFoundPage";
+import LibraryPage from "../../feature/library/Page";
 
 function AppRoutes() {
   return (
