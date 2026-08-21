@@ -3,7 +3,7 @@ import type { Resources } from "../../../../shared/types";
 import { getResources } from "../../api/mockApi";
 import ResourceCard from "../resources/components/ResourceCard";
 import SearchBar from "./components/SearchBar";
-import useLibraryFilters from "./hooks/useLibraryFilters ";
+import useLibraryFilters from "./hooks/useLibraryFilters";
 
 function LibraryPage() {
   const [resources, setResources] = useState<Resources[]>([]);
@@ -22,8 +22,6 @@ function LibraryPage() {
   } = useLibraryFilters();
 
   useEffect(() => {
-    let ignore = false;
-
     async function loadResources() {
       try {
         setLoading(true);
@@ -31,42 +29,28 @@ function LibraryPage() {
 
         const data = await getResources();
 
-        if (!ignore) {
-          setResources(data);
-        }
+        setResources(data);
       } catch {
-        if (!ignore) {
-          setError("Something went wrong");
-        }
+        setError("Something went wrong");
       } finally {
-        if (!ignore) {
-          setLoading(false);
-        }
+        setLoading(false);
       }
     }
 
     loadResources();
 
-    return () => {
-      ignore = true;
-    };
+    return;
   }, []);
 
   const filteredResources = resources
     .filter((resource) => {
       const matchesSearch =
         search.trim() === "" ||
-        resource.title
-          .toLowerCase()
-          .includes(search.toLowerCase());
+        resource.title.toLowerCase().includes(search.toLowerCase());
 
-      const matchesType =
-        type.trim() === "" ||
-        resource.type === type;
+      const matchesType = type.trim() === "" || resource.type === type;
 
-      const matchesTag =
-        tag.trim() === "" ||
-        resource.tags?.includes(tag);
+      const matchesTag = tag.trim() === "" || resource.tags?.includes(tag);
 
       return matchesSearch && matchesType && matchesTag;
     })
@@ -107,22 +91,14 @@ function LibraryPage() {
       <section aria-labelledby="library-title">
         <h2 id="library-title">Library</h2>
 
-        <SearchBar
-          search={search}
-          onSearchChange={setSearch}
-        />
-
-      
+        <SearchBar search={search} onSearchChange={setSearch} />
 
         {filteredResources.length === 0 ? (
           <p>No resources found.</p>
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filteredResources.map((resource) => (
-              <ResourceCard
-                key={resource.id}
-                resource={resource}
-              />
+              <ResourceCard key={resource.id} resource={resource} />
             ))}
           </div>
         )}
