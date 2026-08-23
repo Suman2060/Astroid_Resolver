@@ -12,11 +12,10 @@ function randomDelay() {
 }
 
 function randomFail() {
-  if (Math.random() < 0.1) {
-    alert("Error caused randomly")
+  if (Math.random() < 1.0) {
+    
     console.log("Error cause by random failure")
     throw new Error("System Failed..")
-    
   }
 }
 

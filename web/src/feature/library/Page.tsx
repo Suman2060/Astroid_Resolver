@@ -1,46 +1,21 @@
-import { useEffect, useState } from "react";
-import type { Resources } from "../../../../shared/types";
 import { getResources } from "../../api/mockApi";
 import ResourceCard from "../resources/components/ResourceCard";
 import SearchBar from "./components/SearchBar";
 import useLibraryFilters from "./hooks/useLibraryFilters";
+import { useQuery } from "@tanstack/react-query";
 
 function LibraryPage() {
-  const [resources, setResources] = useState<Resources[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+const {
+  data: resources = [],
+  isLoading,
+  isError,
+  error,
+} = useQuery({
+  queryKey: ["resources"],
+  queryFn: getResources,
+});
 
-  const {
-    search,
-    type,
-    tag,
-    sort,
-    setSearch,
-    // setType,
-    // setTag,
-    // setSort,
-  } = useLibraryFilters();
-
-  useEffect(() => {
-    async function loadResources() {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const data = await getResources();
-
-        setResources(data);
-      } catch {
-        setError("Something went wrong");
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadResources();
-
-    return;
-  }, []);
+  const { search, type, tag, sort, setSearch } = useLibraryFilters();
 
   const filteredResources = resources
     .filter((resource) => {
@@ -66,7 +41,7 @@ function LibraryPage() {
       return 0;
     });
 
-  if (loading) {
+  if (isLoading) {
     return (
       <main>
         <h1>Asteroid Archive</h1>
@@ -75,11 +50,14 @@ function LibraryPage() {
     );
   }
 
-  if (error) {
+
+  console.log("isError:", isError);
+console.log("error:", error);
+  if (isError) {
     return (
       <main>
         <p>Asteroid Error</p>
-        <p>{error}</p>
+        <p>{error.message}</p>
       </main>
     );
   }
