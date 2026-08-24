@@ -5,10 +5,11 @@ import type { Resources } from "../../../../../shared/types";
 
 type RatingResourcesProps = {
   resourceId: number;
+  currentRating?: number;
 };
 
-const RatingResources = ({ resourceId }: RatingResourcesProps) => {
-  const [rating, setRating] = useState(0);
+const RatingResources = ({ resourceId, currentRating = 0 }: RatingResourcesProps) => {
+  const [hoverRating, setHoverRating] = useState(0);
 
   const queryClient = useQueryClient();
 
@@ -23,44 +24,38 @@ const RatingResources = ({ resourceId }: RatingResourcesProps) => {
     }) => addRating(resourceId, rating),
 
     // 2. Optimistic update
-    onMutate: async ({ resourceId, rating }) => {
-      // Stop an existing resources request
+    onMutate: async ({ resourceId: targetId, rating: newRating }) => {
+      // Cancel outgoing refetches
       await queryClient.cancelQueries({
         queryKey: ["resources"],
       });
 
-      // Save the current cache
+      // Snapshot the previous value
       const previousData = queryClient.getQueryData<Resources[]>(["resources"]);
 
-      // Create optimistic data
-      const updatedData = previousData?.map((resource) => {
-        if (resource.id === resourceId) {
-          return {
-            ...resource,
-            rating: rating,
-          };
-        }
+      // Optimistically update query cache
+      if (previousData) {
+        queryClient.setQueryData<Resources[]>(
+          ["resources"],
+          previousData.map((resource) =>
+            resource.id === targetId
+              ? { ...resource, rating: newRating }
+              : resource
+          )
+        );
+      }
 
-        return resource;
-      });
-
-      // Immediately update the cache
-      queryClient.setQueryData(["resources"], updatedData);
-
-      // Give onError access to the old data
-      return {
-        previousData,
-      };
+      return { previousData };
     },
 
     // 3. Rollback if API fails
-    onError: (_error, _varibables, context) => {
+    onError: (_error, _variables, context) => {
       if (context?.previousData) {
         queryClient.setQueryData(["resources"], context.previousData);
       }
     },
 
-    // 4. Make sure cache is eventually fresh
+    // 4. Ensure cache is synced
     onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: ["resources"],
@@ -68,42 +63,58 @@ const RatingResources = ({ resourceId }: RatingResourcesProps) => {
     },
   });
 
-  return (
-    <div>
-      <p>Rate this resource</p>
+  const handleRate = (star: number) => {
+    if (mutation.isPending) return;
+    mutation.mutate({
+      resourceId,
+      rating: star,
+    });
+  };
 
-      <div>
-        {[1, 2, 3, 4, 5].map((star) => (
-          <button
-            key={star}
-            onClick={() => setRating(star)}
-            disabled={mutation.isPending}
-            aria-label={`Rate ${star} out of 5`}
-          >
-            {rating >= star ? "★" : "☆"}
-          </button>
-        ))}
+  const activeStarCount = hoverRating || currentRating;
+
+  return (
+    <div className="pt-2 border-t border-gray-100 dark:border-gray-800">
+      <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+        <span>Rating</span>
+        <span className="font-medium text-gray-700 dark:text-gray-300">
+          {currentRating > 0 ? `${currentRating}/5` : "Not rated"}
+        </span>
       </div>
 
-      <p>Current rating: {rating}/5</p>
+      <div className="mt-1 flex items-center justify-between">
+        <div
+          className="flex items-center gap-1"
+          onMouseLeave={() => setHoverRating(0)}
+        >
+          {[1, 2, 3, 4, 5].map((star) => (
+            <button
+              key={star}
+              type="button"
+              onClick={() => handleRate(star)}
+              onMouseEnter={() => setHoverRating(star)}
+              disabled={mutation.isPending}
+              className={`text-base transition disabled:opacity-50 ${
+                activeStarCount >= star
+                  ? "text-yellow-400"
+                  : "text-gray-300 dark:text-gray-600 hover:text-yellow-300"
+              }`}
+              aria-label={`Rate ${star} of 5`}
+            >
+              ★
+            </button>
+          ))}
+        </div>
 
-      <button
-        disabled={rating === 0 || mutation.isPending}
-        onClick={() =>
-          mutation.mutate({
-            resourceId,
-            rating,
-          })
-        }
-      >
-        {mutation.isPending ? "Submitting..." : "Submit Rating"}
-      </button>
-
-      {mutation.isError && <p>{mutation.error.message}</p>}
-
-      {mutation.isSuccess && <p>Successfully rated!</p>}
+        {mutation.isPending && (
+          <span className="text-xs text-gray-400">Saving...</span>
+        )}
+      </div>
     </div>
   );
 };
 
 export default RatingResources;
+
+
+

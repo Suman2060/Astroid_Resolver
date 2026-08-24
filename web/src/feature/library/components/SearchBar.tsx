@@ -12,10 +12,12 @@ function SearchBar({ search, onSearchChange }: SearchBarProps) {
       name="search"
       type="search"
       value={search}
-      placeholder="Search Resources..."
+      placeholder="Search resources..."
       onChange={(event) => onSearchChange(event.target.value)}
     />
   );
 }
 
 export default SearchBar;
+
+

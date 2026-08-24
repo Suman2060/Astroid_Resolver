@@ -1,8 +1,6 @@
-import { useReducer } from "react";
-import type { ChangeEvent, FormEvent } from "react";
-
 import Input from "../../../common/componets/Input";
 import Button from "../../../common/componets/Button";
+import { useForm } from "react-hook-form";
 
 type FormData = {
   title: string;
@@ -11,182 +9,91 @@ type FormData = {
   visibility: string;
 };
 
-type FormState = {
-  data: FormData;
-  status: "idle" | "submitting" | "success" | "error";
-  error: string | null;
-};
-
-type FormAction =
-  | {
-      type: "FIELD_CHANGE";
-      field: keyof FormData;
-      value: string;
-    }
-  | {
-      type: "SUBMIT";
-    }
-  | {
-      type: "SUCCESS";
-    }
-  | {
-      type: "ERROR";
-      message: string;
-    };
-
-const initialState: FormState = {
-  data: {
-    title: "",
-    description: "",
-    type: "",
-    visibility: "",
-  },
-  status: "idle",
-  error: null,
-};
-
-function reducer(
-  state: FormState,
-  action: FormAction
-): FormState {
-  switch (action.type) {
-    case "FIELD_CHANGE":
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          [action.field]: action.value,
-        },
-      };
-
-    case "SUBMIT":
-      return {
-        ...state,
-        status: "submitting",
-        error: null,
-      };
-
-    case "SUCCESS":
-      return {
-        ...state,
-        status: "success",
-        error: null,
-      };
-
-    case "ERROR":
-      return {
-        ...state,
-        status: "error",
-        error: action.message,
-      };
-
-    default: {
-      const exhaustiveCheck: never = action;
-      return exhaustiveCheck;
-    }
-  }
-}
-
 function ResourceForm() {
-  const [state, dispatch] = useReducer(
-    reducer,
-    initialState
-  );
+  const {
+    register,
+    handleSubmit,
+  } = useForm<FormData>();
 
-  const handleChange = (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    const { name, value } = event.target;
-
-    dispatch({
-      type: "FIELD_CHANGE",
-      field: name as keyof FormData,
-      value,
-    });
-  };
-
-  const handleSubmit = (
-    event: FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
-
-    dispatch({
-      type: "SUBMIT",
-    });
-
-
-    setTimeout(() => {
-      const isSuccessful = true;
-
-      if (isSuccessful) {
-        dispatch({
-          type: "SUCCESS",
-        });
-      } else {
-        dispatch({
-          type: "ERROR",
-          message: "Failed to submit resource.",
-        });
-      }
-    }, 1000);
-  };
+  function onSubmit(data: FormData) {
+    console.log(data);
+  }
 
   return (
-    <form onSubmit={handleSubmit}>
-      {state.status === "submitting" && (
-        <p>Submitting resource...</p>
-      )}
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="max-w-xl mx-auto rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900 sm:p-8 space-y-5"
+    >
+      <div className="space-y-1.5">
+        <label
+          htmlFor="title"
+          className="block text-xs font-semibold text-slate-700 dark:text-slate-300"
+        >
+          Title
+        </label>
 
-      {state.status === "success" && (
-        <p>Resource submitted successfully.</p>
-      )}
+        <Input
+          id="title"
+          {...register("title")}
+          placeholder="e.g. Mastering React 19"
+        />
+      </div>
 
-      {state.status === "error" && (
-        <p>{state.error}</p>
-      )}
+      <div className="space-y-1.5">
+        <label
+          htmlFor="description"
+          className="block text-xs font-semibold text-slate-700 dark:text-slate-300"
+        >
+          Description
+        </label>
 
-      <Input
-        id="title"
-        name="title"
-        value={state.data.title}
-        placeholder="Resource title"
-        onChange={handleChange}
-        disabled={state.status === "submitting"}
-      />
+        <Input
+          id="description"
+          {...register("description")}
+          placeholder="Brief summary of the resource..."
+        />
+      </div>
 
-      <Input
-        id="description"
-        name="description"
-        value={state.data.description}
-        placeholder="Resource description"
-        onChange={handleChange}
-        disabled={state.status === "submitting"}
-      />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="space-y-1.5">
+          <label
+            htmlFor="type"
+            className="block text-xs font-semibold text-slate-700 dark:text-slate-300"
+          >
+            Resource Type
+          </label>
 
-      <Input
-        id="type"
-        name="type"
-        value={state.data.type}
-        placeholder="Resource type"
-        onChange={handleChange}
-        disabled={state.status === "submitting"}
-      />
+          <Input
+            id="type"
+            {...register("type")}
+            placeholder="book, article, or video"
+          />
+        </div>
 
-      <Input
-        id="visibility"
-        name="visibility"
-        value={state.data.visibility}
-        placeholder="Visibility"
-        onChange={handleChange}
-        disabled={state.status === "submitting"}
-      />
+        <div className="space-y-1.5">
+          <label
+            htmlFor="visibility"
+            className="block text-xs font-semibold text-slate-700 dark:text-slate-300"
+          >
+            Visibility
+          </label>
 
-      <Button type="submit" disabled={state.status === "submitting"}
-      >
-        {state.status === "submitting"
-          ? "Submitting..."
-          : "Submit Resource"}
-      </Button>
+          <Input
+            id="visibility"
+            {...register("visibility")}
+            placeholder="public or private"
+          />
+        </div>
+      </div>
+
+      <div className="pt-2">
+        <Button
+          type="submit"
+          className="w-full"
+        >
+          Submit Resource
+        </Button>
+      </div>
     </form>
   );
 }
