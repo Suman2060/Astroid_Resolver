@@ -51,8 +51,7 @@ const {
   }
 
 
-  console.log("isError:", isError);
-console.log("error:", error);
+
   if (isError) {
     return (
       <main>

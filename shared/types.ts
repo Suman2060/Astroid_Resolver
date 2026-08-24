@@ -14,4 +14,5 @@ export interface Resources {
   tags: string[];
   status: ResourceStatus;
   visibility: Visibility;
+  rating:number
 }

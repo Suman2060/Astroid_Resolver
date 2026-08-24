@@ -10,6 +10,7 @@ export const resources: Resources[] = [
     status: "available",
     visibility: "public",
     tags: ["typescript", "programming"],
+    rating: 4,
   },
   {
     id: 2,
@@ -20,6 +21,7 @@ export const resources: Resources[] = [
     status: "available",
     visibility: "public",
     tags: ["javascript", "programming"],
+    rating: 5,
   },
   {
     id: 3,
@@ -30,6 +32,7 @@ export const resources: Resources[] = [
     status: "available",
     visibility: "public",
     tags: ["api", "backend", "http"],
+    rating: 3,
   },
   {
     id: 4,
@@ -40,6 +43,7 @@ export const resources: Resources[] = [
     status: "pending",
     visibility: "public",
     tags: ["postgresql", "database", "sql"],
+    rating: 4,
   },
   {
     id: 5,
@@ -50,6 +54,7 @@ export const resources: Resources[] = [
     status: "available",
     visibility: "public",
     tags: ["accessibility", "web"],
+    rating: 5,
   },
   {
     id: 6,
@@ -60,6 +65,7 @@ export const resources: Resources[] = [
     status: "available",
     visibility: "public",
     tags: ["css", "flexbox", "grid"],
+    rating: 3,
   },
   {
     id: 7,
@@ -70,6 +76,7 @@ export const resources: Resources[] = [
     status: "available",
     visibility: "public",
     tags: ["clean-code", "software-design"],
+    rating: 4,
   },
   {
     id: 8,
@@ -80,6 +87,7 @@ export const resources: Resources[] = [
     status: "available",
     visibility: "public",
     tags: ["git", "version-control"],
+    rating: 5,
   },
   {
     id: 9,
@@ -90,6 +98,7 @@ export const resources: Resources[] = [
     status: "pending",
     visibility: "public",
     tags: ["database", "design", "sql"],
+    rating: 2,
   },
   {
     id: 10,
@@ -100,6 +109,7 @@ export const resources: Resources[] = [
     status: "archived",
     visibility: "public",
     tags: ["http", "web", "networking"],
+    rating: 4,
   },
   {
     id: 11,
@@ -110,6 +120,7 @@ export const resources: Resources[] = [
     status: "available",
     visibility: "public",
     tags: ["javascript", "async", "promises"],
+    rating: 5,
   },
   {
     id: 12,
@@ -120,6 +131,7 @@ export const resources: Resources[] = [
     status: "available",
     visibility: "public",
     tags: ["json", "api", "web"],
+    rating: 3,
   },
   {
     id: 13,
@@ -130,6 +142,7 @@ export const resources: Resources[] = [
     status: "available",
     visibility: "private",
     tags: ["nodejs", "backend", "javascript"],
+    rating: 4,
   },
   {
     id: 14,
@@ -140,6 +153,7 @@ export const resources: Resources[] = [
     status: "available",
     visibility: "public",
     tags: ["responsive", "css", "web"],
+    rating: 5,
   },
   {
     id: 15,
@@ -150,6 +164,7 @@ export const resources: Resources[] = [
     status: "pending",
     visibility: "private",
     tags: ["sql", "database", "performance"],
+    rating: 2,
   },
   {
     id: 16,
@@ -160,6 +175,7 @@ export const resources: Resources[] = [
     status: "archived",
     visibility: "public",
     tags: ["oop", "programming"],
+    rating: 3,
   },
   {
     id: 17,
@@ -170,6 +186,7 @@ export const resources: Resources[] = [
     status: "available",
     visibility: "public",
     tags: ["browser", "rendering", "javascript"],
+    rating: 4,
   },
   {
     id: 18,
@@ -180,6 +197,7 @@ export const resources: Resources[] = [
     status: "available",
     visibility: "private",
     tags: ["typescript", "type-systems", "programming"],
+    rating: 3,
   },
   {
     id: 19,
@@ -190,6 +208,7 @@ export const resources: Resources[] = [
     status: "pending",
     visibility: "public",
     tags: ["frontend", "architecture", "design"],
+    rating: 5,
   },
   {
     id: 20,
@@ -200,5 +219,6 @@ export const resources: Resources[] = [
     status: "available",
     visibility: "public",
     tags: ["accessibility", "frontend", "ui"],
+    rating: 4,
   },
 ];
