@@ -1,5 +1,6 @@
 import { getResources } from "../../api/mockApi";
 import ResourceCard from "../resources/components/ResourceCard";
+import ResourceCardSkeleton from "../resources/components/ResourceCardSkeleton";
 import SearchBar from "./components/SearchBar";
 import useLibraryFilters from "./hooks/useLibraryFilters";
 import { useQuery } from "@tanstack/react-query";
@@ -32,7 +33,7 @@ function LibraryPage() {
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
           Asteroid Archive
         </h1>
-        <p className="text-sm text-gray-500">Loading resources...</p>
+        {<ResourceCardSkeleton/>}
       </main>
     );
   }
