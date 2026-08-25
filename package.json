@@ -1,0 +1,24 @@
+{
+  "name": "astroid-resolver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Suman2060/Astroid_Resolver.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Suman2060/Astroid_Resolver/issues"
+  },
+  "homepage": "https://github.com/Suman2060/Astroid_Resolver#readme",
+  "dependencies": {
+    "zod": "^4.4.3"
+  }
+}

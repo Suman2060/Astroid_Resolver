@@ -1,32 +1,46 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 
 import AppLayout from "../componets/AppLayout";
-
 
 import ResourceDetailPage from "../../feature/resources/components/ResourceDetailPage";
 import CollectionsPage from "../../feature/collections/components/CollectionDetailPage";
 import SubmitPage from "../../feature/submit/SubmitPage";
-
 import NotFoundPage from "../Pages/NotFoundPage";
 import LibraryPage from "../../feature/library/Page";
+import ErrorBoundary from "../componets/ErrorBoundary";
 
-function AppRoutes() {
-  return (
-    <Routes>
-      <Route element={<AppLayout />}>
-        <Route path="/" element={<Navigate to="/library" replace />} />
-        <Route path="/library" element={<LibraryPage />} />
+const AppRoutes = createBrowserRouter([
+  {
+    element: <AppLayout />,
+    errorElement: <ErrorBoundary />,
+    children: [
+      {
+        path: "/",
+        element: <Navigate to="/library" replace />,
+      },
+      {
+        path: "/library",
+        element: <LibraryPage />,
+      },
+      {
+        path: "/resources/:id",
+        element: <ResourceDetailPage />,
+      },
+      {
+        path: "/collections",
+        element: <CollectionsPage />,
+      },
+      {
+        path: "/submit",
+        element: <SubmitPage />,
+      },
+    ],
+  },
 
-        <Route path="/resources/:id" element={<ResourceDetailPage />} />
-
-        <Route path="/collections" element={<CollectionsPage />} />
-
-        <Route path="/submit" element={<SubmitPage />} />
-      </Route>
-
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
-  );
-}
+  {
+    path: "*",
+    element: <NotFoundPage />,
+  },
+]);
 
 export default AppRoutes;

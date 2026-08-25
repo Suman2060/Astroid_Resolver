@@ -5,6 +5,7 @@ import useLibraryFilters from "./hooks/useLibraryFilters";
 import { useQuery } from "@tanstack/react-query";
 
 function LibraryPage() {
+  //  throw new Error("Test error");
   const {
     data: resources = [],
     isLoading,
@@ -17,6 +18,7 @@ function LibraryPage() {
 
   const { search, setSearch } = useLibraryFilters();
 
+ 
   const filteredResources = resources.filter((resource) => {
     return (
       search.trim() === "" ||
@@ -47,6 +49,8 @@ function LibraryPage() {
   }
 
   return (
+
+    
     <main className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
