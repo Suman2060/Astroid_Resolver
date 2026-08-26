@@ -1,13 +1,13 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
+import { lazy } from "react";
 
-import AppLayout from "../componets/AppLayout";
-
-import ResourceDetailPage from "../../feature/resources/components/ResourceDetailPage";
-import CollectionsPage from "../../feature/collections/components/CollectionDetailPage";
-import SubmitPage from "../../feature/submit/SubmitPage";
-import NotFoundPage from "../Pages/NotFoundPage";
-import LibraryPage from "../../feature/library/Page";
-import ErrorBoundary from "../componets/ErrorBoundary";
+const AppLayout = lazy(() => import("../componets/AppLayout"));
+const ResourceDetailPage = lazy(() => import("../../feature/resources/components/ResourceDetailPage"));
+const CollectionsPage = lazy(() => import("../../feature/collections/components/CollectionDetailPage"))
+const SubmitPage = lazy(() => import("../../feature/submit/SubmitPage"))
+const NotFoundPage = lazy(() => import("../Pages/NotFoundPage"))
+const LibraryPage = lazy(() => import("../../feature/library/Page"))
+const ErrorBoundary = lazy(() => import("../componets/ErrorBoundary"))
 
 const AppRoutes = createBrowserRouter([
   {

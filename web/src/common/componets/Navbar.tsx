@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { NavLink } from "react-router-dom";
 
-function Navbar() {
+const Navbar = memo(function Navbar() {
   return (
     <header className="border-b border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5">
@@ -45,10 +46,10 @@ function Navbar() {
             Submit
           </NavLink>
         </nav>
+        
       </div>
     </header>
   );
-}
+});
 
 export default Navbar;
-

@@ -1,4 +1,5 @@
 
+import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { getResources } from "../../api/mockApi";
@@ -24,12 +25,14 @@ function LibraryPage() {
 
   const { search, setSearch } = useLibraryFilters();
 
-  const filteredResources = resources.filter((resource) => {
-    return (
-      search.trim() === "" ||
-      resource.title.toLowerCase().includes(search.toLowerCase())
-    );
-  });
+  const filteredResources = useMemo(() => {
+    return resources.filter((resource) => {
+      return (
+        search.trim() === "" ||
+        resource.title.toLowerCase().includes(search.toLowerCase())
+      );
+    });
+  }, [resources, search]);
 
   if (isLoading) {
     return (
@@ -67,6 +70,7 @@ function LibraryPage() {
         <p className="text-sm text-gray-500 dark:text-gray-400">
           Search and view resources in the library.
         </p>
+        
       </div>
 
       <div className="max-w-md">

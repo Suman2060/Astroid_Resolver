@@ -1,27 +1,49 @@
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 
 function useLibraryFilters() {
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const search = searchParams.get("search") ?? "";
+    const paramSearch = searchParams.get("search") ?? "";
+    const [search, setSearchState] = useState(paramSearch);
+    const searchParamsRef = useRef(searchParams);
+    searchParamsRef.current = searchParams;
+
+    
+    useEffect(() => {
+        setSearchState(paramSearch);
+    }, [paramSearch]);
+
+    
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            const currentParams = new URLSearchParams(searchParamsRef.current);
+            const currentVal = currentParams.get("search") ?? "";
+
+            if (search.trim() === "") {
+                if (currentParams.has("search")) {
+                    currentParams.delete("search");
+                    setSearchParams(currentParams, { replace: true });
+                }
+            } else if (currentVal !== search) {
+                currentParams.set("search", search);
+                setSearchParams(currentParams, { replace: true });
+            }
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, [search, setSearchParams]);
+
     const type = searchParams.get("type") ?? "";
     const tag = searchParams.get("tag") ?? "";
     const sort = searchParams.get("sort") ?? "";
 
-    const setSearch = (value: string) => {
-        const params = new URLSearchParams(searchParams);
+    const setSearch = useCallback((value: string) => {
+        setSearchState(value);
+    }, []);
 
-        if (value.trim() === "") {
-            params.delete("search");
-        } else {
-            params.set("search", value);
-        }
-
-        setSearchParams(params);
-    };
-
-    const setType = (value: string) => {
-        const params = new URLSearchParams(searchParams);
+    const setType = useCallback((value: string) => {
+        const params = new URLSearchParams(searchParamsRef.current);
 
         if (value.trim() === "") {
             params.delete("type");
@@ -29,11 +51,11 @@ function useLibraryFilters() {
             params.set("type", value);
         }
 
-        setSearchParams(params);
-    };
+        setSearchParams(params, { replace: true });
+    }, [setSearchParams]);
 
-    const setTag = (value: string) => {
-        const params = new URLSearchParams(searchParams);
+    const setTag = useCallback((value: string) => {
+        const params = new URLSearchParams(searchParamsRef.current);
 
         if (value.trim() === "") {
             params.delete("tag");
@@ -41,11 +63,11 @@ function useLibraryFilters() {
             params.set("tag", value);
         }
 
-        setSearchParams(params);
-    };
+        setSearchParams(params, { replace: true });
+    }, [setSearchParams]);
 
-    const setSort = (value: string) => {
-        const params = new URLSearchParams(searchParams);
+    const setSort = useCallback((value: string) => {
+        const params = new URLSearchParams(searchParamsRef.current);
 
         if (value.trim() === "") {
             params.delete("sort");
@@ -53,8 +75,8 @@ function useLibraryFilters() {
             params.set("sort", value);
         }
 
-        setSearchParams(params);
-    };
+        setSearchParams(params, { replace: true });
+    }, [setSearchParams]);
 
     return {
         search,

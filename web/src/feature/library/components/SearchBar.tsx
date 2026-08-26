@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Input from "../../../common/componets/Input";
 
 type SearchBarProps = {
@@ -5,7 +6,7 @@ type SearchBarProps = {
   onSearchChange: (value: string) => void;
 };
 
-function SearchBar({ search, onSearchChange }: SearchBarProps) {
+const SearchBar = memo(function SearchBar({ search, onSearchChange }: SearchBarProps) {
   return (
     <Input
       id="search"
@@ -16,7 +17,7 @@ function SearchBar({ search, onSearchChange }: SearchBarProps) {
       onChange={(event) => onSearchChange(event.target.value)}
     />
   );
-}
+});
 
 export default SearchBar;
 

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import type { Resources } from "../../../../../shared/types";
 import { Link } from "react-router-dom";
 import StatusBadge from "./StatusBadge";
@@ -7,7 +8,7 @@ type ResourceCardProps = {
   resource: Resources;
 };
 
-function ResourceCard({ resource }: ResourceCardProps) {
+const ResourceCard = memo(function ResourceCard({ resource }: ResourceCardProps) {
   return (
     <article className="flex flex-col justify-between rounded-lg border border-gray-200 bg-white p-5 shadow-xs dark:border-gray-800 dark:bg-gray-900">
       <div>
@@ -56,7 +57,7 @@ function ResourceCard({ resource }: ResourceCardProps) {
       </div>
     </article>
   );
-}
+});
 
 export default ResourceCard;
 
