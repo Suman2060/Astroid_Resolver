@@ -1,28 +1,29 @@
-import { Suspense } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import Navbar from "./Navbar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 function PageLoader() {
   return (
     <div className="flex h-64 items-center justify-center">
-      <div className="h-8 w-8 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent dark:border-indigo-400">
-
-
-      </div>
-
+      <div className="h-8 w-8 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent dark:border-indigo-400"></div>
     </div>
-  )
+  );
 }
 
-
 function AppLayout() {
+  const mainref = useRef<HTMLElement>(null);
+  const location  =  useLocation()
+
+  useEffect(()=>{
+    mainref.current?.focus()
+  },[location.pathname])
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
       <Navbar />
 
-      <main className="mx-auto max-w-6xl px-4 py-8">
-        <Suspense  fallback={<PageLoader/>}>
-              <Outlet />
+      <main className="mx-auto max-w-6xl px-4 py-8" tabIndex={-1} ref={mainref}>
+        <Suspense fallback={<PageLoader />}>
+          <Outlet />
         </Suspense>
       </main>
     </div>
@@ -30,4 +31,3 @@ function AppLayout() {
 }
 
 export default AppLayout;
-
